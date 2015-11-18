@@ -1,0 +1,8 @@
+# carton snapshot format: version 1.0
+DISTRIBUTIONS
+  Sys-Hostname-FQDN-0.12
+    pathname: M/MI/MIKER/Sys-Hostname-FQDN-0.12.tar.gz
+    provides:
+      Sys::Hostname::FQDN 0.12
+    requirements:
+      ExtUtils::MakeMaker 0

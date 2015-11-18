@@ -1,13 +1,15 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Digest::MD5;
 use lib ("lib", "../lib");
 use Diff;
+use FindBin qw/$Bin/;
+use local::lib "$Bin/../local";
+use Digest::MD5;
 use File::Copy;
-my $basePath = "/root/scripts/ServerConfig";
-my $hostname = `hostname --fqdn`;
-chomp $hostname;
+use Sys::Hostname::FQDN qw(fqdn);
+my $basePath = $ARGV[0];
+my $hostname = fqdn();
 print "Using hostname: $hostname\n";
 my $startPath = $basePath . '/' . $hostname;
 my @pending = ($startPath);

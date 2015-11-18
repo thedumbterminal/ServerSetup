@@ -1,10 +1,8 @@
 #diff two files and returns an integer result
 package Diff;
-BEGIN {
-	use warnings;
-	use strict;
-	our $version ="1";	#version of this software
-}
+use warnings;
+use strict;
+our $version = 1;
 #############################################################
 sub diff{
 	my($class, $file1, $file2) = @_;
@@ -30,5 +28,4 @@ sub fullDiff{
 	return $output;
 }
 ###############################################################################
-return 1;
-END {}
+1;

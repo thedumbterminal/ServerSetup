@@ -6,12 +6,12 @@ use local::lib "$Bin/../local";
 use File::Find;
 use Test::Simple tests => 1;
 
-find(\&checkFile, ('lib'));	
+find(\&checkFile, ('script'));	
 
 #########################################################
 sub checkFile{
 	my $file = $_;
-	if($file =~ m/.+\.pm$/){
+	if($file =~ m/.+\.pl$/){
 		my $result = system('perl -c ' . $file . ' 2>&1');
 		ok($result == 0, $file . " compiles");
 	}
