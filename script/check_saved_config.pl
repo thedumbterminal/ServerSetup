@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 use strict;
 use warnings;
 use lib ("lib", "../lib");
@@ -9,24 +9,19 @@ use Digest::MD5;
 use File::Copy;
 use Sys::Hostname::FQDN qw(fqdn);
 my $basePath = $ARGV[0];
-my $hostname = fqdn();
-print "Using hostname: $hostname\n";
-my $startPath = $basePath . '/' . $hostname;
+my $startPath = $basePath . '/' . fqdn();
+print "Using config path: $hostname\n";
 my @pending = ($startPath);
 my @sFiles;
 while(my $current = shift @pending){
   if(-d $current){	#read the contents of the directory
-    if(opendir(DIR, $current)){
-      foreach my $file (readdir(DIR)){
-        if($file ne "." && $file ne ".." && $file ne ".svn" && $file !~ m/~$/){	#ignore unwanted files
-          push(@pending, $current . '/' . $file);
-        }
+    opendir(DIR, $current) or die("Could not open dir: $!");
+    foreach my $file (readdir(DIR)){
+      if($file ne "." && $file ne ".." && $file ne ".svn" && $file !~ m/~$/){	#ignore unwanted files
+        push(@pending, $current . '/' . $file);
       }
-      closedir(DIR);
     }
-    else{
-      die("Could not open dir: $!");
-    }
+    closedir(DIR);
   }
   else{	#add this file to the process list
     push(@sFiles, $current);
@@ -70,27 +65,18 @@ foreach my $file (keys %changed){
   my $copy = <STDIN>;
   chomp $copy;
   if($copy eq "y"){	#copy file
-    if(copy($fFile, $file)){	#copy worked
-      print "...done\n";
-    }
-    else{
-      die("Could not copy file: $fFile -> $file");
-    }
+    copy($fFile, $file) or die("Could not copy file: $fFile -> $file");
+    print "...done\n";
   }
 }
 ##########################################################
 sub _makeMd5{
   my $file = shift;
-  my $hex;
-  if(open(FILE, "<$file")){
-    binmode(FILE);
-    my $md5 = Digest::MD5->new();
-    $md5->addfile(*FILE);
-    $hex = $md5->hexdigest();
-    close(FILE);
-  }
-  else{
-    die("Can't open: $file: $!\n");
-  }
+  open(FILE, "<$file") or die("Can't open: $file: $!");
+  binmode(FILE);
+  my $md5 = Digest::MD5->new();
+  $md5->addfile(*FILE);
+  my $hex = $md5->hexdigest();
+  close(FILE);
   return $hex;
 }

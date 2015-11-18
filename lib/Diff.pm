@@ -1,4 +1,4 @@
-#diff two files and returns an integer result
+#diff two files and returns an boolean result
 package Diff;
 use warnings;
 use strict;
@@ -7,24 +7,17 @@ our $version = 1;
 sub diff{
 	my($class, $file1, $file2) = @_;
 	my $output = $class->fullDiff($file1, $file2);
-	if($output){	#files are different
-		return 1;
-	}
-	else {	#files are the same
-		return 0;
-	}
+	$output ne "";	#files are different
 }
 #############################################################
 sub fullDiff{
 	my($file1, $file2) = @_;
+	open(DIFF, "/usr/bin/diff $file1 $file2 |") or die("Cant run diff for $file1 & $file2 : $!");
 	my $output = "";
-	if(open(DIFF, "/usr/bin/diff $file1 $file2 |")){
-		while(<DIFF>){$output .= $_;}
-		close(DIFF);
+	while(my $line = <DIFF>){
+		$output .= $line;
 	}
-	else{
-		die("Cant run diff for $file1 & $file2 : $!\n");
-	}
+	close(DIFF);
 	return $output;
 }
 ###############################################################################
