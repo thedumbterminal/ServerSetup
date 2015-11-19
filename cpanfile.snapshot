@@ -6,3 +6,10 @@ DISTRIBUTIONS
       Sys::Hostname::FQDN 0.12
     requirements:
       ExtUtils::MakeMaker 0
+  local-lib-2.000018
+    pathname: H/HA/HAARG/local-lib-2.000018.tar.gz
+    provides:
+      lib::core::only undef
+      local::lib 2.000018
+    requirements:
+      perl 5.006
