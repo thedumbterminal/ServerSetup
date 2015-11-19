@@ -2,3 +2,6 @@ language: perl
 before_install: "cpanm Carton"
 install: "carton install"
 script: "carton exec -- prove -v t/*"
+cache:
+  directories:
+  - local

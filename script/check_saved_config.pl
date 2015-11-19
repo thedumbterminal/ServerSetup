@@ -10,7 +10,7 @@ use File::Copy;
 use Sys::Hostname::FQDN qw(fqdn);
 my $basePath = $ARGV[0];
 my $startPath = $basePath . '/' . fqdn();
-print "Using config path: $hostname\n";
+print "Using config path: $startPath\n";
 my @pending = ($startPath);
 my @sFiles;
 while(my $current = shift @pending){
