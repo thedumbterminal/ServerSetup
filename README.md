@@ -1,4 +1,7 @@
 # ServerSetup
+
+[![Build Status](https://travis-ci.org/thedumbterminal/ServerSetup.svg?branch=master)](https://travis-ci.org/thedumbterminal/ServerSetup)
+
 Version your linux system configurations
 
 ## Install
