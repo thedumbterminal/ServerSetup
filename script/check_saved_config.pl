@@ -5,7 +5,7 @@ use lib ("lib", "../lib");
 use Diff;
 use FindBin qw/$Bin/;
 use local::lib "$Bin/../local";
-use Digest::MD5;
+use Digest::MD5::File qw(file_md5_hex);
 use File::Copy;
 use Sys::Hostname::FQDN qw(fqdn);
 die("Usage: $0 <directory>\n") unless $ARGV[0];
@@ -44,10 +44,10 @@ my %changed;
 #now process the found files
 foreach my $file (@sFiles){
 	my $status = "ERR";
-	my $hex = _makeMd5($file);
+	my $hex = file_md5_hex($file);
 	my $fFile = $file;
 	$fFile =~ s/^$startPath//;
-	my $fHex = _makeMd5($fFile);
+	my $fHex = file_md5_hex($fFile);
 	if(!$fHex){
 		print "Remove this file from the config? y/n: ";
 		my $remove = <STDIN>;
@@ -81,15 +81,4 @@ foreach my $file (keys %changed){
 		copy($fFile, $file) or die("Could not copy file: $fFile -> $file");
 		print "...done\n";
 	}
-}
-##########################################################
-sub _makeMd5{
-	my $file = shift;
-	open(FILE, "<$file") or die("Can't open: $file: $!");
-	binmode(FILE);
-	my $md5 = Digest::MD5->new();
-	$md5->addfile(*FILE);
-	my $hex = $md5->hexdigest();
-	close(FILE);
-	return $hex;
 }
