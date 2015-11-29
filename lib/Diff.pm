@@ -11,7 +11,7 @@ sub diff{
 }
 #############################################################
 sub fullDiff{
-	my($file1, $file2) = @_;
+	my($class, $file1, $file2) = @_;
 	open(DIFF, "/usr/bin/diff $file1 $file2 |") or die("Cant run diff for $file1 & $file2 : $!");
 	my $output = "";
 	while(my $line = <DIFF>){

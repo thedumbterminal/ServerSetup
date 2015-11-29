@@ -47,7 +47,10 @@ foreach my $file (@sFiles){
 	my $hex = file_md5_hex($file);
 	my $fFile = $file;
 	$fFile =~ s/^$startPath//;
-	my $fHex = file_md5_hex($fFile);
+	my $fHex;
+	eval{
+		$fHex = file_md5_hex($fFile);
+	};
 	if(!$fHex){
 		print "Remove file $file from the config? y/n: ";
 		my $remove = <STDIN>;
